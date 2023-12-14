@@ -1,3 +1,5 @@
+#ifdef WIN32
+
 #include <event_bus.h>
 
 #include <script_registrator_collection.h>
@@ -85,3 +87,5 @@ static init_func fn([]() {
     auto ptr = scan_pattern(pattern, 3);
     g_module_core = *get_address<const char**>(ptr.value());
 }, "scripting");
+
+#endif

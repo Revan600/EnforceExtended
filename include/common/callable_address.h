@@ -33,5 +33,5 @@ class callable_address {
 template <typename TRet, typename... Args>
 class callable_address<TRet(Args...)> : public details::callable_address_<TRet, Args...> {
 public:
-    explicit callable_address(std::uintptr_t(* getter)()) : callable_address_(getter) {};
+    explicit callable_address(std::uintptr_t(* getter)()) : details::callable_address_<TRet, Args...>(getter) {};
 };

@@ -1,3 +1,4 @@
+#ifdef WIN32
 #include <event_bus.h>
 #include <enf/types.h>
 #include <script_registrator_collection.h>
@@ -82,3 +83,4 @@ static init_func fn([]() {
 
     script_registrator_collection::add<socket_registrator>();
 }, "socket", {"scripting"});
+#endif

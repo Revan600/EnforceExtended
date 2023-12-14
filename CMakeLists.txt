@@ -12,20 +12,29 @@ file(GLOB_RECURSE sources
 
 add_library(EnforceExtended SHARED ${sources})
 
-target_compile_definitions(EnforceExtended PRIVATE WIN32_LEAN_AND_MEAN)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+if (WIN32)
+    target_compile_definitions(EnforceExtended PRIVATE WIN32_LEAN_AND_MEAN)
+    target_link_libraries(EnforceExtended PRIVATE ws2_32)
+endif (WIN32)
 
 target_include_directories(EnforceExtended PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
-target_link_libraries(EnforceExtended PRIVATE ws2_32)
+#rcmp
+add_subdirectory(vendor/rcmp)
+target_link_libraries(EnforceExtended PRIVATE rcmp)
 
 #MinHook
-add_subdirectory(vendor/minhook)
-target_link_libraries(EnforceExtended PRIVATE minhook)
+#add_subdirectory(vendor/minhook)
+#target_link_libraries(EnforceExtended PRIVATE minhook)
 
-set(
-        ARCHIVE_OUTPUT_DIRECTORY "C:/Program Files (x86)/Steam/steamapps/common/DayZServer/"
-        LIBRARY_OUTPUT_DIRECTORY "C:/Program Files (x86)/Steam/steamapps/common/DayZServer/"
-        RUNTIME_OUTPUT_DIRECTORY "C:/Program Files (x86)/Steam/steamapps/common/DayZServer/"
-)
+if (WIN32)
+    set(
+            ARCHIVE_OUTPUT_DIRECTORY "C:/Program Files (x86)/Steam/steamapps/common/DayZServer/"
+            LIBRARY_OUTPUT_DIRECTORY "C:/Program Files (x86)/Steam/steamapps/common/DayZServer/"
+            RUNTIME_OUTPUT_DIRECTORY "C:/Program Files (x86)/Steam/steamapps/common/DayZServer/"
+    )
 
-set_target_properties(EnforceExtended PROPERTIES RUNTIME_OUTPUT_DIRECTORY "C:/Program Files (x86)/Steam/steamapps/common/DayZServer/")
+    set_target_properties(EnforceExtended PROPERTIES RUNTIME_OUTPUT_DIRECTORY "C:/Program Files (x86)/Steam/steamapps/common/DayZServer/")
+endif (WIN32)
